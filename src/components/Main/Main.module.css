@@ -22,3 +22,9 @@
 .wrapper h4 {
     font-size: 20px;
 }
+
+.heading {
+    background-color: pink;
+    padding: 16px;
+    border-radius: 8px;
+}
