@@ -1,4 +1,16 @@
-import { Box, Button, TextField, CircularProgress, Autocomplete, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  CircularProgress,
+  Autocomplete,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Grid,
+  Paper,
+} from "@mui/material";
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import mainStyles from "./Main.module.css";
@@ -12,10 +24,54 @@ function Main() {
     mobile: "",
     education: "",
     skills: [],
+    percentage: "",
+    year: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [boardOptions, setBoardOptions] = useState([
+    "SSC Maharastra",
+    "SSC Gujrat",
+    "CBSE",
+    "ICSE",
+  ]);
+
+  const [boardOptions2, setBoardOptions2] = useState([
+    "HSC Maharastra",
+    "HSC Gujrat",
+    "CBSE",
+    "ICSE",
+  ]);
+
+  const [boardOptions3, setBoardOptions3] = useState([
+    "Science",
+    "Commerce",
+    "Art",
+  ]);
+
+  const [uniBranchOptions, setUniBranchOptions] = useState([
+    "BSC",
+    "B.Tech",
+    "M.Tech",
+    "BCA",
+    "MCA",
+  ]);
+
+  const [semeterOptions, setSemeterOptions] = useState([
+    "1st Semester",
+    "2nd Semester",
+    "3rd Semester",
+    "4th Semester",
+    "5th Semester",
+    "6th Semester",
+  ]);
+
+  const [mediumOptions, setMediumOptions] = useState([
+    "Marathi",
+    "Hindi",
+    "English",
+  ]);
   const [educationOptions, setEducationOptions] = useState([
     "Harvard University",
     "Stanford University",
@@ -26,18 +82,23 @@ function Main() {
     "IIT Bombay",
     // Add more universities/schools as needed
   ]);
-  const [skillsOptions, setSkillsOptions] = useState([
-    "JavaScript",
-    "React",
-    "Node.js",
-    "Python",
-    "Java",
-    "SQL",
-    "CSS",
-    "HTML",
-    "C++",
-    // Add more skills as needed
+  const [langOptions, setLangOptions] = useState([
+    "Hindi",
+    "Marathi",
+    "English",
   ]);
+
+  // Generate a list of year ranges from 2000 to the current year
+  const generateYearRanges = () => {
+    const currentYear = new Date().getFullYear();
+    let years = [];
+    for (let year = 1990; year < currentYear; year++) {
+      years.push(`${year}-${year + 1}`);
+    }
+    return years;
+  };
+
+  const yearOptions = generateYearRanges();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,10 +124,28 @@ function Main() {
   };
 
   const validateForm = () => {
-    const { username, email, address, dob, mobile, education, skills } = formData;  
+    const {
+      username,
+      email,
+      address,
+      dob,
+      mobile,
+      education,
+      skills,
+      percentage,
+      year,
+    } = formData;
 
     // Check if required fields are filled
-    if (!username || !email || !address || !dob || !mobile || !education || skills.length === 0) {
+    if (
+      !username ||
+      !email ||
+      !address ||
+      !dob ||
+      !mobile ||
+      !education ||
+      skills.length === 0
+    ) {
       return "All fields are required!";
     }
 
@@ -80,6 +159,16 @@ function Main() {
     const mobileRegex = /^\+91\d{10}$/;
     if (!mobileRegex.test(mobile)) {
       return "Mobile number should start with +91 followed by 10 digits!";
+    }
+
+    // Validate percentage (0 to 100)
+    const percentageValue = parseFloat(percentage);
+    if (
+      isNaN(percentageValue) ||
+      percentageValue < 0 ||
+      percentageValue > 100
+    ) {
+      return "Please enter a valid percentage between 0 and 100!";
     }
 
     return null;
@@ -134,109 +223,423 @@ function Main() {
     <>
       <div className={mainStyles.container}>
         <div className={mainStyles.wrapper}>
-          <h3>Admin Panel Form</h3>
-          <Box component="form" onSubmit={handleSubmit}>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+          {/* <h3>Admin Panel Form</h3> */}
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Paper elevation={3} sx={{ padding: 3 }}>
+                <Box component="form" onSubmit={handleSubmit}>
+                  {error && <p style={{ color: "red" }}>{error}</p>}
 
-            <TextField
-              label="Username"
-              variant="outlined"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ my: 1 }}
-            />
-            <TextField
-              label="Email-Id"
-              variant="outlined"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ my: 1 }}
-            />
-            <TextField
-              label="Address"
-              variant="outlined"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              multiline
-              fullWidth
-              sx={{ my: 1 }}
-            />
-            <TextField
-              label="Date of Birth"
-              variant="outlined"
-              name="dob"
-              type="date"
-              value={formData.dob}
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ my: 1 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            {/* Country Field: Fixed to India */}
-            <TextField
-              label="Country"
-              variant="outlined"
-              name="country"
-              value="India" // Fixed to India
-              disabled
-              fullWidth
-              sx={{ my: 1 }}
-            />
-            <TextField
-              label="Mobile Number"
-              variant="outlined"
-              name="mobile"
-              value={formData.mobile}
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ my: 1 }}
-            />
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={12}>
+                      <h4>Information</h4>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        label="PID"
+                        variant="outlined"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        label="User-Id"
+                        variant="outlined"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        label="Country"
+                        variant="outlined"
+                        name="country"
+                        value="India" // Fixed to India
+                        disabled
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        label="Mobile Number"
+                        variant="outlined"
+                        name="mobile"
+                        value={formData.mobile}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        label="Username"
+                        variant="outlined"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <TextField
+                        label="Email-Id"
+                        variant="outlined"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        label="Date of Birth"
+                        variant="outlined"
+                        name="dob"
+                        type="date"
+                        value={formData.dob}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Address"
+                        variant="outlined"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        multiline
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
 
-            {/* Education Field with Autocomplete */}
-            <Autocomplete
-              value={formData.education}
-              onChange={handleEducationChange}
-              options={educationOptions}
-              renderInput={(params) => <TextField {...params} label="Education" variant="outlined" fullWidth />}
-              sx={{ my: 1 }}
-            />
+                    {/* School details */}
+                    <Grid item xs={12} md={12}>
+                      <h4>School Details</h4>
+                    </Grid>
 
-            {/* Skills Field with Select */}
-            <FormControl fullWidth sx={{ my: 1 }}>
-              <InputLabel>Skills</InputLabel>
-              <Select
-                multiple
-                value={formData.skills}
-                onChange={handleSkillsChange}
-                renderValue={(selected) => selected.join(", ")}
-              >
-                {skillsOptions.map((skill) => (
-                  <MenuItem key={skill} value={skill}>
-                    {skill}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                    <Grid item xs={12} md={4}>
+                      <TextField
+                        label="Class 10"
+                        variant="outlined"
+                        name="class"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        multiline
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
 
-            <Box sx={{ my: 2, display: "flex", justifyContent: "center" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="success"
-                endIcon={loading ? <CircularProgress size={24} /> : <SendIcon />}
-                disabled={loading}
-              >
-                {loading ? "Submitting..." : "Submit"}
-              </Button>
-            </Box>
-          </Box>
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={boardOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Board"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={mediumOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Medium"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={yearOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Year"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    {/* Percentage Field */}
+                    <Grid item xs={12} md={6}>
+                      <TextField
+                        label="Percentage"
+                        variant="outlined"
+                        name="percentage"
+                        value={formData.percentage}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                        inputProps={{
+                          inputMode: "numeric", // Ensures a numeric input field on mobile
+                          pattern: "[0-9]*", // Optional pattern for numeric validation
+                        }}
+                      />
+                    </Grid>
+
+                    {/* College details */}
+                    <Grid item xs={12} md={12}>
+                      <h4>College Details</h4>
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <TextField
+                        label="Class 11 & 12"
+                        variant="outlined"
+                        name="class"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        multiline
+                        fullWidth
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={boardOptions2}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Board"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={boardOptions3}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Branch"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={yearOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Year"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    {/* Percentage Field */}
+                    <Grid item xs={12} md={6}>
+                      <TextField
+                        label="Percentage"
+                        variant="outlined"
+                        name="percentage"
+                        value={formData.percentage}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                        inputProps={{
+                          inputMode: "numeric", // Ensures a numeric input field on mobile
+                          pattern: "[0-9]*", // Optional pattern for numeric validation
+                        }}
+                      />
+                    </Grid>
+
+                    {/* University details */}
+                    <Grid item xs={12} md={12}>
+                      <h4>University Details</h4>
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={semeterOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Semester"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    {/* Education Field with Autocomplete */}
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={educationOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select University"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={uniBranchOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Branch"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                      <Autocomplete
+                        value={formData.education}
+                        onChange={handleEducationChange}
+                        options={yearOptions}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select Year"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        )}
+                        sx={{ my: 1 }}
+                      />
+                    </Grid>
+
+                    {/* Percentage Field */}
+                    <Grid item xs={12} md={6}>
+                      <TextField
+                        label="Percentage"
+                        variant="outlined"
+                        name="percentage"
+                        value={formData.percentage}
+                        onChange={handleInputChange}
+                        fullWidth
+                        sx={{ my: 1 }}
+                        inputProps={{
+                          inputMode: "numeric", // Ensures a numeric input field on mobile
+                          pattern: "[0-9]*", // Optional pattern for numeric validation
+                        }}
+                      />
+                    </Grid>
+
+                    {/* Skills Field with Select */}
+                    <Grid item xs={12}>
+                      <FormControl fullWidth sx={{ my: 1 }}>
+                        <InputLabel>Select Language</InputLabel>
+                        <Select
+                          multiple
+                          value={formData.skills}
+                          onChange={handleSkillsChange}
+                          renderValue={(selected) => selected.join(", ")}
+                        >
+                          {langOptions.map((skill) => (
+                            <MenuItem key={skill} value={skill}>
+                              {skill}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Box
+                        sx={{
+                          my: 2,
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="success"
+                          endIcon={
+                            loading ? (
+                              <CircularProgress size={24} />
+                            ) : (
+                              <SendIcon />
+                            )
+                          }
+                          disabled={loading}
+                        >
+                          {loading ? "Submitting..." : "Submit"}
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
         </div>
       </div>
     </>
