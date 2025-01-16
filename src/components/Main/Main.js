@@ -25,6 +25,7 @@ function Main() {
     dob: "",
     mobile: "",
     education: "",
+    distict: "",
     skills: [],
     percentage: "",
     year: "",
@@ -32,6 +33,7 @@ function Main() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const [boardOptions, setBoardOptions] = useState([
     "SSC Maharastra",
     "SSC Gujrat",
@@ -43,6 +45,8 @@ function Main() {
     "Mumbai",
     "Bangluru",
   ]);
+
+  const [stateOptions, setStateOptions] = useState(["Maharastra", "Karnataka"]);
 
   const [schoolOptions, setSchoolOptions] = useState([
     "ritesh paatsala",
@@ -65,8 +69,6 @@ function Main() {
     "Class 11th",
     "Class 12th",
   ]);
-
-  const [stateOptions, setStateOptions] = useState(["Maharastra", "Karnataka"]);
 
   const [boardOptions2, setBoardOptions2] = useState([
     "HSC Maharastra",
@@ -367,7 +369,7 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || districtOptions[0]}
+                        value={formData.distict || districtOptions[0]}
                         onChange={handleEducationChange}
                         options={districtOptions}
                         renderInput={(params) => (
@@ -742,7 +744,9 @@ function Main() {
                     {/* Graduation college name */}
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || graduationCollegeOptions[0]}
+                        value={
+                          formData.education || graduationCollegeOptions[0]
+                        }
                         onChange={handleEducationChange}
                         options={graduationCollegeOptions}
                         renderInput={(params) => (
