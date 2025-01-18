@@ -14,6 +14,7 @@ import {
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import mainStyles from "./Main.module.css";
+import ButtonComponent from "../Button/ButtonComponent";
 
 function Main() {
   const [formData, setFormData] = useState({
@@ -301,8 +302,30 @@ function Main() {
                   {error && <p style={{ color: "red" }}>{error}</p>}
 
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={12}>
-                      <h4 className={mainStyles.heading}>Information</h4>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <h4
+                        className={mainStyles.heading}
+                        style={{ margin: 0, textAlign: "right" }}
+                      >
+                        Information
+                      </h4>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <ButtonComponent name="add" />
+                      </div>{" "}
                     </Grid>
                     <Grid item xs={12} md={3}>
                       <TextField
@@ -433,8 +456,30 @@ function Main() {
                     </Grid>
 
                     {/* School details */}
-                    <Grid item xs={12} md={12}>
-                      <h4 className={mainStyles.heading}>School Details</h4>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <h4
+                        className={mainStyles.heading}
+                        style={{ margin: 0, textAlign: "right" }}
+                      >
+                        School Details
+                      </h4>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <ButtonComponent name="add" />
+                      </div>{" "}
                     </Grid>
 
                     <Grid item xs={12} md={4}>
@@ -535,13 +580,32 @@ function Main() {
                     </Grid>
 
                     {/* College details */}
-                    <Grid item xs={12} md={12}>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
                       <h4
-                        style={{ marginBottom: "10px" }}
                         className={mainStyles.heading}
+                        style={{ margin: 0, textAlign: "right" }}
                       >
                         College Details
                       </h4>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <ButtonComponent name="add" />
+                      </div>{" "}
+                    </Grid>
+                    <Grid item xs={12} md={12}>
                       <h4>11th</h4>
                     </Grid>
 
@@ -757,8 +821,30 @@ function Main() {
                     </Grid>
 
                     {/* University details */}
-                    <Grid item xs={12} md={12}>
-                      <h4 className={mainStyles.heading}>Graduation Details</h4>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <h4
+                        className={mainStyles.heading}
+                        style={{ margin: 0, textAlign: "right" }}
+                      >
+                        Graduation Details
+                      </h4>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <ButtonComponent name="add" />
+                      </div>{" "}
                     </Grid>
 
                     {/* Graduation college name */}
