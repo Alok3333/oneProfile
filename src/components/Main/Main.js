@@ -26,8 +26,31 @@ function Main() {
     mobile: "",
     education: "",
     distict: "",
+    state: "",
+    schoolName: "",
+    collegeName: "",
+    selectBoard: "",
+    selectBoard2: "",
+    selectMedium: "",
+    selectYear: "",
+    selectClasses: "",
+    selectBranch: "",
+    selectYear2: "",
+    collegeName2: "",
+    selectClasses2: "",
+    selectBoard3: "",
+    selectBranch2: "",
+    selectYear3: "",
+    graduation: "",
+    selectUniversity: "",
+    selectSem: "",
+    selectBranch3: "",
+    selectYear4: "",
     skills: [],
-    percentage: "",
+    percentage1: "",
+    percentage2: "",
+    percentage3: "",
+    percentage4: "",
     year: "",
   });
 
@@ -49,9 +72,15 @@ function Main() {
   const [stateOptions, setStateOptions] = useState(["Maharastra", "Karnataka"]);
 
   const [schoolOptions, setSchoolOptions] = useState([
-    "ritesh paatsala",
-    "swami vivekanand hindi/english high school",
-    "aasrivad high school",
+    "Ritesh paatsala",
+    "Swami vivekanand hindi/english high school",
+    "Aasrivad high school",
+  ]);
+
+  const [mediumOptions, setMediumOptions] = useState([
+    "Marathi",
+    "Hindi",
+    "English",
   ]);
 
   const [collegeOptions, setCollegeOptions] = useState([
@@ -77,6 +106,13 @@ function Main() {
     "ICSE",
   ]);
 
+  const [boardOptions12, setBoardOptions12] = useState([
+    "HSC Maharastra",
+    "HSC Gujrat",
+    "CBSE",
+    "SSC",
+  ]);
+
   const [boardOptions3, setBoardOptions3] = useState([
     "Science",
     "Commerce",
@@ -100,11 +136,6 @@ function Main() {
     "6th Semester",
   ]);
 
-  const [mediumOptions, setMediumOptions] = useState([
-    "Marathi",
-    "Hindi",
-    "English",
-  ]);
   const [educationOptions, setEducationOptions] = useState([
     "Harvard University",
     "Stanford University",
@@ -141,10 +172,10 @@ function Main() {
     }));
   };
 
-  const handleEducationChange = (event, newValue) => {
+  const handleEducationChange = (field) => (event, newValue) => {
     setFormData((prev) => ({
       ...prev,
-      education: newValue,
+      [field]: newValue,
     }));
   };
 
@@ -370,7 +401,7 @@ function Main() {
                     <Grid item xs={12} md={4}>
                       <Autocomplete
                         value={formData.distict || districtOptions[0]}
-                        onChange={handleEducationChange}
+                        onChange={handleEducationChange("distict")}
                         options={districtOptions}
                         renderInput={(params) => (
                           <TextField
@@ -386,8 +417,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || stateOptions[0]}
-                        onChange={handleEducationChange}
+                        value={formData.state || stateOptions[0]}
+                        onChange={handleEducationChange("state")}
                         options={stateOptions}
                         renderInput={(params) => (
                           <TextField
@@ -408,8 +439,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || schoolOptions[1]}
-                        onChange={handleEducationChange}
+                        value={formData.schoolName || schoolOptions[1]}
+                        onChange={handleEducationChange("schoolName")}
                         options={schoolOptions}
                         renderInput={(params) => (
                           <TextField
@@ -437,8 +468,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || boardOptions[0]}
-                        onChange={handleEducationChange}
+                        value={formData.selectBoard || boardOptions[0]}
+                        onChange={handleEducationChange("selectBoard")}
                         options={boardOptions}
                         renderInput={(params) => (
                           <TextField
@@ -454,8 +485,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || mediumOptions[2]}
-                        onChange={handleEducationChange}
+                        value={formData.selectMedium || mediumOptions[2]}
+                        onChange={handleEducationChange("selectMedium")}
                         options={mediumOptions}
                         renderInput={(params) => (
                           <TextField
@@ -471,8 +502,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || yearOptions[31]}
-                        onChange={handleEducationChange}
+                        value={formData.selectYear || yearOptions[31]}
+                        onChange={handleEducationChange("selectYear")}
                         options={yearOptions}
                         renderInput={(params) => (
                           <TextField
@@ -491,8 +522,8 @@ function Main() {
                       <TextField
                         label="Percentage"
                         variant="outlined"
-                        name="percentage"
-                        value={formData.percentage}
+                        name="percentage1"
+                        value={formData.percentage1}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -516,8 +547,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || collegeOptions[0]}
-                        onChange={handleEducationChange}
+                        value={formData.collegeName || collegeOptions[0]}
+                        onChange={handleEducationChange("collegeName")}
                         options={collegeOptions}
                         renderInput={(params) => (
                           <TextField
@@ -533,8 +564,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || collegeClassOptions[0]}
-                        onChange={handleEducationChange}
+                        value={formData.selectClasses || collegeClassOptions[0]}
+                        onChange={handleEducationChange("selectClasses")}
                         options={collegeClassOptions}
                         renderInput={(params) => (
                           <TextField
@@ -548,23 +579,10 @@ function Main() {
                       />
                     </Grid>
 
-                    {/* <Grid item xs={12} md={4}>
-                      <TextField
-                        label="Class 11"
-                        variant="outlined"
-                        name="class"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        multiline
-                        fullWidth
-                        sx={{ my: 1 }}
-                      />
-                    </Grid> */}
-
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || boardOptions2[0]}
-                        onChange={handleEducationChange}
+                        value={formData.selectBoard2 || boardOptions2[0]}
+                        onChange={handleEducationChange("selectBoard2")}
                         options={boardOptions2}
                         renderInput={(params) => (
                           <TextField
@@ -580,8 +598,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || boardOptions3[0]}
-                        onChange={handleEducationChange}
+                        value={formData.selectBranch || boardOptions3[0]}
+                        onChange={handleEducationChange("selectBranch")}
                         options={boardOptions3}
                         renderInput={(params) => (
                           <TextField
@@ -597,8 +615,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || yearOptions[32]}
-                        onChange={handleEducationChange}
+                        value={formData.selectYear2 || yearOptions[32]}
+                        onChange={handleEducationChange("selectYear2")}
                         options={yearOptions}
                         renderInput={(params) => (
                           <TextField
@@ -617,8 +635,8 @@ function Main() {
                       <TextField
                         label="Percentage"
                         variant="outlined"
-                        name="percentage"
-                        value={formData.percentage}
+                        name="percentage2"
+                        value={formData.percentage2}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -636,8 +654,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || collegeOptions[0]}
-                        onChange={handleEducationChange}
+                        value={formData.collegeName2 || collegeOptions[0]}
+                        onChange={handleEducationChange("collegeName2")}
                         options={collegeOptions}
                         renderInput={(params) => (
                           <TextField
@@ -653,8 +671,10 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || collegeClassOptions[0]}
-                        onChange={handleEducationChange}
+                        value={
+                          formData.selectClasses2 || collegeClassOptions[0]
+                        }
+                        onChange={handleEducationChange("selectClasses2")}
                         options={collegeClassOptions}
                         renderInput={(params) => (
                           <TextField
@@ -670,9 +690,9 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || boardOptions2[0]}
-                        onChange={handleEducationChange}
-                        options={boardOptions2}
+                        value={formData.selectBoard3 || boardOptions12[0]}
+                        onChange={handleEducationChange("selectBoard3")}
+                        options={boardOptions12}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -687,8 +707,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || boardOptions3[0]}
-                        onChange={handleEducationChange}
+                        value={formData.selectBranch2 || boardOptions3[0]}
+                        onChange={handleEducationChange("selectBranch2")}
                         options={boardOptions3}
                         renderInput={(params) => (
                           <TextField
@@ -704,8 +724,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || yearOptions[32]}
-                        onChange={handleEducationChange}
+                        value={formData.selectYear3 || yearOptions[32]}
+                        onChange={handleEducationChange("selectYear3")}
                         options={yearOptions}
                         renderInput={(params) => (
                           <TextField
@@ -724,8 +744,8 @@ function Main() {
                       <TextField
                         label="Percentage"
                         variant="outlined"
-                        name="percentage"
-                        value={formData.percentage}
+                        name="percentage3"
+                        value={formData.percentage3}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -745,9 +765,9 @@ function Main() {
                     <Grid item xs={12} md={4}>
                       <Autocomplete
                         value={
-                          formData.education || graduationCollegeOptions[0]
+                          formData.graduation || graduationCollegeOptions[0]
                         }
-                        onChange={handleEducationChange}
+                        onChange={handleEducationChange("graduation")}
                         options={graduationCollegeOptions}
                         renderInput={(params) => (
                           <TextField
@@ -764,8 +784,8 @@ function Main() {
                     {/* University name */}
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education}
-                        onChange={handleEducationChange}
+                        value={formData.selectUniversity}
+                        onChange={handleEducationChange("selectUniversity")}
                         options={educationOptions}
                         renderInput={(params) => (
                           <TextField
@@ -781,8 +801,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || semeterOptions[0]}
-                        onChange={handleEducationChange}
+                        value={formData.selectSem || semeterOptions[0]}
+                        onChange={handleEducationChange("selectSem")}
                         options={semeterOptions}
                         renderInput={(params) => (
                           <TextField
@@ -798,8 +818,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || uniBranchOptions[3]}
-                        onChange={handleEducationChange}
+                        value={formData.selectBranch3 || uniBranchOptions[3]}
+                        onChange={handleEducationChange("selectBranch3")}
                         options={uniBranchOptions}
                         renderInput={(params) => (
                           <TextField
@@ -815,8 +835,8 @@ function Main() {
 
                     <Grid item xs={12} md={4}>
                       <Autocomplete
-                        value={formData.education || yearOptions[33]}
-                        onChange={handleEducationChange}
+                        value={formData.selectYear4 || yearOptions[33]}
+                        onChange={handleEducationChange("selectYear4")}
                         options={yearOptions}
                         renderInput={(params) => (
                           <TextField
@@ -835,8 +855,8 @@ function Main() {
                       <TextField
                         label="Percentage"
                         variant="outlined"
-                        name="percentage"
-                        value={formData.percentage}
+                        name="percentage4"
+                        value={formData.percentage4}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -877,7 +897,10 @@ function Main() {
                         <Button
                           type="submit"
                           variant="contained"
-                          color="success"
+                          sx={{
+                            backgroundColor: "#8174A0",
+                          }}
+                          // color="success"
                           endIcon={
                             loading ? (
                               <CircularProgress size={24} />
