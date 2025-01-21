@@ -10,6 +10,7 @@ import {
   FormControl,
   Grid,
   Paper,
+  InputAdornment,
 } from "@mui/material";
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
@@ -57,6 +58,9 @@ function Main() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // State for random string
+  const [randomStr, setRandomStr] = useState("");
 
   const [boardOptions, setBoardOptions] = useState([
     "SSC Maharastra",
@@ -186,6 +190,27 @@ function Main() {
       ...prev,
       skills: typeof value === "string" ? value.split(",") : value,
     }));
+  };
+
+  // Function for generate random string
+  const randomStringGenerator = () => {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const digits = "0123456789";
+
+    // Generate 2 Alphabet char
+    const randomAlphabetChar = Array.from({length: 2}, () => 
+      letters.charAt(Math.floor(Math.random() * letters.length))
+    ).join("");
+
+    // Generate 4 Digits number
+    const randomDigitNum = Array.from({length: 4}, () => 
+      digits.charAt(Math.floor(Math.random() * digits.length))
+    ).join("");
+
+    const result = randomAlphabetChar + randomDigitNum;
+    setRandomStr(result);
+
+    // console.log(randomAlphabetChar + randomDigitNum, "al")
   };
 
   const validateForm = () => {
@@ -332,10 +357,24 @@ function Main() {
                         label="PID"
                         variant="outlined"
                         name="pid"
-                        value={formData.pid}
-                        onChange={handleInputChange}
+                        value={randomStr}
+                        // onChange={handleInputChange}
+                        disabled
                         fullWidth
                         sx={{ my: 1 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Button
+                                sx={{ backgroundColor: "#8174A0" }}
+                                variant="contained"
+                                onClick={randomStringGenerator}
+                              >
+                                Generate Pid
+                              </Button>
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} md={3}>
