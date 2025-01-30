@@ -57,10 +57,15 @@ function Main() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  // State for random string
-  const [randomStr, setRandomStr] = useState("");
+  const [errors, setErrors] = useState({
+    pid: "",
+    userId: "",
+    mobile: "",
+    username: "",
+    email: "",
+    dob: "",
+    address: "",
+  });
 
   const [boardOptions, setBoardOptions] = useState([
     "SSC Maharastra",
@@ -198,121 +203,192 @@ function Main() {
     const digits = "0123456789";
 
     // Generate 2 Alphabet char
-    const randomAlphabetChar = Array.from({length: 2}, () => 
+    const randomAlphabetChar = Array.from({ length: 2 }, () =>
       letters.charAt(Math.floor(Math.random() * letters.length))
     ).join("");
 
     // Generate 4 Digits number
-    const randomDigitNum = Array.from({length: 4}, () => 
+    const randomDigitNum = Array.from({ length: 4 }, () =>
       digits.charAt(Math.floor(Math.random() * digits.length))
     ).join("");
 
     const result = randomAlphabetChar + randomDigitNum;
-    setRandomStr(result);
+    setFormData({ ...formData, pid: result });
 
     // console.log(randomAlphabetChar + randomDigitNum, "al")
   };
 
+  // Validation function
   const validateForm = () => {
-    const {
-      pid,
-      username,
-      email,
-      userId,
-      address,
-      dob,
-      mobile,
-      education,
-      skills,
-      percentage,
-      year,
-    } = formData;
+    let formErrors = {};
+    let isValid = true;
 
-    // Check if required fields are filled
-    if (
-      !pid ||
-      !userId ||
-      !username ||
-      !email ||
-      !address ||
-      !dob ||
-      !mobile ||
-      !education ||
-      skills.length === 0
-    ) {
-      return "All fields are required!";
+    if (!formData.pid) {
+      formErrors.pid = "PID is required";
+      isValid = false;
     }
 
-    // Validate email format
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      return "Please enter a valid email address!";
+    if (!formData.userId) {
+      formErrors.userId = "User-Id is required";
+      isValid = false;
     }
 
-    // Validate mobile number for +91 (India) format
-    const mobileRegex = /^\+91\d{10}$/;
-    if (!mobileRegex.test(mobile)) {
-      return "Mobile number should start with +91 followed by 10 digits!";
+    // Mobile Number validation (must be digits and 10 characters long)
+    if (!formData.mobile) {
+      formErrors.mobile = "Mobile number is required";
+      isValid = false;
+    } else if (!/^\d{10}$/.test(formData.mobile)) {
+      formErrors.mobile = "Mobile number must be 10 digits";
+      isValid = false;
     }
 
-    // Validate percentage (0 to 100)
-    const percentageValue = parseFloat(percentage);
-    if (
-      isNaN(percentageValue) ||
-      percentageValue < 0 ||
-      percentageValue > 100
-    ) {
-      return "Please enter a valid percentage between 0 and 100!";
+    if (!formData.username) {
+      formErrors.username = "Full name is required";
+      isValid = false;
     }
 
-    return null;
+    // Email validation (basic email pattern)
+    if (!formData.email) {
+      formErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      formErrors.email = "Email is not valid";
+      isValid = false;
+    }
+
+    // Date of Birth validation
+    if (!formData.dob) {
+      formErrors.dob = "Date of birth is required";
+      isValid = false;
+    }
+
+    if (!formData.address) {
+      formErrors.address = "Address is required";
+      isValid = false;
+    }
+
+    // Distict Validation
+    if (!formData.distict) {
+      formErrors.distict = "Distict is required";
+      isValid = false;
+    }
+
+    // State Validation
+    if (!formData.state) {
+      formErrors.state = "State is required";
+      isValid = false;
+    }
+
+    setErrors(formErrors);
+    return isValid;
   };
+
+  // const validateForm = () => {
+  //   const {
+  //     pid,
+  //     username,
+  //     email,
+  //     userId,
+  //     address,
+  //     dob,
+  //     mobile,
+  //     education,
+  //     skills,
+  //     percentage,
+  //     year,
+  //   } = formData;
+
+  //   // Check if required fields are filled
+  //   if (
+  //     !pid ||
+  //     !userId ||
+  //     !username ||
+  //     !email ||
+  //     !address ||
+  //     !dob ||
+  //     !mobile ||
+  //     !education ||
+  //     skills.length === 0
+  //   ) {
+  //     return "All fields are required!";
+  //   }
+
+  //   // Validate email format
+  //   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  //   if (!emailRegex.test(email)) {
+  //     return "Please enter a valid email address!";
+  //   }
+
+  //   // Validate mobile number for +91 (India) format
+  //   const mobileRegex = /^\+91\d{10}$/;
+  //   if (!mobileRegex.test(mobile)) {
+  //     return "Mobile number should start with +91 followed by 10 digits!";
+  //   }
+
+  //   // Validate percentage (0 to 100)
+  //   const percentageValue = parseFloat(percentage);
+  //   if (
+  //     isNaN(percentageValue) ||
+  //     percentageValue < 0 ||
+  //     percentageValue > 100
+  //   ) {
+  //     return "Please enter a valid percentage between 0 and 100!";
+  //   }
+
+  //   return null;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validateForm();
+
     if (validationError) {
-      setError(validationError);
-      return;
+      alert("Correct");
+    } else {
+      alert("not correct");
     }
-    setError("");
+    // if (validationError) {
+    //   setErrors(validationError);
+    //   return;
+    // }
+    // setErrors("");
 
-    setLoading(true);
+    // setLoading(true);
 
-    try {
-      // API call to submit data (replace URL with actual API)
-      const response = await fetch("https://your-api-url.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    // try {
+    //   // API call to submit data (replace URL with actual API)
+    //   const response = await fetch("https://your-api-url.com/submit", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit the form");
-      }
+    //   if (!response.ok) {
+    //     throw new Error("Failed to submit the form");
+    //   }
 
-      const result = await response.json();
-      console.log("Form submitted successfully", result);
+    //   const result = await response.json();
+    //   console.log("Form submitted successfully", result);
 
-      setFormData({
-        pid: "",
-        username: "",
-        email: "",
-        userId: "",
-        address: "",
-        dob: "",
-        mobile: "",
-        education: "",
-        skills: [],
-      });
-    } catch (error) {
-      console.error("Error during form submission", error);
-      setError("Failed to submit the form. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+    //   setFormData({
+    //     pid: "",
+    //     username: "",
+    //     email: "",
+    //     userId: "",
+    //     address: "",
+    //     dob: "",
+    //     mobile: "",
+    //     education: "",
+    //     skills: [],
+    //   });
+    // } catch (error) {
+    //   console.error("Error during form submission", error);
+    //   setErrors("Failed to submit the form. Please try again later.");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -323,9 +399,7 @@ function Main() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Paper elevation={3} sx={{ padding: 3 }}>
-                <Box component="form" onSubmit={handleSubmit}>
-                  {error && <p style={{ color: "red" }}>{error}</p>}
-
+                <Box component="form">
                   <Grid container spacing={2}>
                     <Grid
                       item
@@ -357,7 +431,9 @@ function Main() {
                         label="PID"
                         variant="outlined"
                         name="pid"
-                        value={randomStr}
+                        value={formData.pid}
+                        error={!!errors.pid}
+                        helperText={errors.pid}
                         // onChange={handleInputChange}
                         disabled
                         fullWidth
@@ -384,6 +460,8 @@ function Main() {
                         name="userId"
                         value={formData.userId}
                         onChange={handleInputChange}
+                        error={!!errors.userId}
+                        helperText={errors.userId}
                         fullWidth
                         sx={{ my: 1 }}
                       />
@@ -405,6 +483,8 @@ function Main() {
                         variant="outlined"
                         name="mobile"
                         value={formData.mobile}
+                        error={!!errors.mobile}
+                        helperText={errors.mobile}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -416,6 +496,8 @@ function Main() {
                         variant="outlined"
                         name="username"
                         value={formData.username}
+                        error={!!errors.username}
+                        helperText={errors.username}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -427,6 +509,8 @@ function Main() {
                         variant="outlined"
                         name="email"
                         value={formData.email}
+                        error={!!errors.email}
+                        helperText={errors.email}
                         onChange={handleInputChange}
                         fullWidth
                         sx={{ my: 1 }}
@@ -440,6 +524,8 @@ function Main() {
                         type="date"
                         value={formData.dob}
                         onChange={handleInputChange}
+                        error={!!errors.dob}
+                        helperText={errors.dob}
                         fullWidth
                         sx={{ my: 1 }}
                         InputLabelProps={{
@@ -454,6 +540,8 @@ function Main() {
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
+                        error={!!errors.address}
+                        helperText={errors.address}
                         multiline
                         fullWidth
                         sx={{ my: 1 }}
@@ -470,6 +558,8 @@ function Main() {
                             {...params}
                             label="Distict"
                             variant="outlined"
+                            error={!!errors.distict}
+                            helperText={errors.distict}
                             fullWidth
                           />
                         )}
@@ -487,6 +577,8 @@ function Main() {
                             {...params}
                             label="State"
                             variant="outlined"
+                            error={!!errors.state}
+                            helperText={errors.state}
                             fullWidth
                           />
                         )}
@@ -886,7 +978,7 @@ function Main() {
                       </div>{" "}
                     </Grid>
 
-                    {/* Graduation college name */}
+                    {/* Graduation college name semeter*/}
                     <Grid item xs={12} md={4}>
                       <Autocomplete
                         value={
@@ -1025,6 +1117,7 @@ function Main() {
                           sx={{
                             backgroundColor: "#8174A0",
                           }}
+                          onClick={handleSubmit}
                           // color="success"
                           endIcon={
                             loading ? (
